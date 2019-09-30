@@ -132,3 +132,36 @@ By sufficiently reducing the aperture diameter we can make the circle of confusi
 Obviously, the smaller the aperture diameter the deeper objects we can have in focus. 
 
 Note, since the rays passing through the lens' center do not refract, in the limit of infinitely small aperture the presence of the lens can be neglected and this will turn into the pinhole camera described above. 
+
+### Fixed focus cameras
+
+Since in the future posts we will mostly play with web cameras and the majority of webcams are so-called fixed-focus cameras, let us dive a little deeper into this particular corner case.
+
+First of all, let us rewrite the formula (3) as follows:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?l=\frac{df}{d-f}\equiv\frac{f}{1&space;-&space;f/d}." />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (8)
+</p>
+
+Notice, that for sufficiently far objects *d >> f* the denominator in (8) goes to one and, therefore, the ideal location of the sensor will be close to the focus. The typical focal length of the modern cameras bounces around *1-10 mm* so this condition is satisfied with high precision for our everyday objects and distances (*~ 1m*). We can assume that with high precision that the sensors of the fixed-focus webcams are placed in the focus of the lens. 
+
+Now, if we substitute *l'=f* in (7) two first terms will cancel each other and we will arrive to the following formula:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?c=\frac{Df}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (9)
+</p>
+
+It is clear from the formula that the larger is *d* the smaller is the circle of confusion *c*. So, for the fixed focal length *f* and aperture diameter *D* all points which are farther than *d<sub>0</sub>* from the lens
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?d_0&space;=&space;\frac{Df}{c}&space;\label{hyperfocal}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (9)
+</p>
+will have a circle of confusion less than *c*. This is called ***hyperfocal distance***. If for *c* we take half the  size of our sensing pixel, all objects which are farther than (9) from the lens will be as sharp as our sensor can possibly make. 
+
+Finally, the distance of the image of the point from the principal axis, according to (5) will read:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;\frac{hf}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (10)
+</p>
+
+Comparing this to (1) shows that we can use formulae  (2) for the fixed focus cameras.
