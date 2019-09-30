@@ -60,3 +60,75 @@ However, due to a number of reasons we cannot make the hole very small.
 First of all a smaller hole means less light reaching the sensor and, as a result,  dimmer pictures. On the other hand, if, for example,  we use a digital sensor, and  make the hole so small that in the distance range interesting for us the confusion circle is not bigger than a pixel on the sensor; no matter how small we make the hole, our picture will not get any sharper, it will rather get dimmer and dimmer until vanishes in the noise of the device.
 
 The second and, probably not very actual, reason is that even if we could amplify the light coming from the objects or make the sensor's pixels infinitely sensitive there is another effect which emerges when the radius of the hole becomes comparable to the wavelength of the optical light - the optical diffraction. This is, perhaps, the theoretical limitation of the pinhole camera model. In practice, however the boundaries are much closer due to the limitations of the sensors. 
+
+### The lens camera
+
+The lens is an optical device which focuses or disperses the light beam. For our purposes we will be interested in focusing lenses only. 
+
+Normally the lenses are axially symmetric. The symmetry axis of the lens is called  {\it principal axis}. The key property of the lens is that it refracts the rays coming from a point so that they all meet in a single point on the opposite side of the lens. The rays parallel to the ***principal axis*** always pass through a special point called ***focus*** **F**. The rays through the lens' center pass intact. See Figure 5.
+
+<p align="center">
+  <img width="80%" src="/images/lens.png">  
+  <p align="center">Figure 5: The refraction of rays through a thin focusing lens. Rays emitted by a point on the distance d from the lens meet at a single point, which is at a distance l from the lens.</p>
+</p>
+
+From Figure 5 it is easy to derive the ***lens formula***:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\frac{1}{f}&space;&plus;&space;\frac{1}{d}&space;=&space;\frac{1}{l}." />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (3)
+</p>
+
+This formula implies that if we place our sensor at distance the *l* determined from (3), all the points which are at the same distance *d* from the lens will be nicely projected on the sensor. Adjusting the position of the sensor to the lens will enable us to take sharp pictures of objects at different distances. 
+
+The relations between the distances from the principal axis read:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?h'&space;=&space;l\frac{h}{d}\equiv&space;\frac{fh}{d-f}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (4)
+</p>
+
+**What happens to the points which are at a slightly different distance?** or, equivalently,  **What happens if we place the sensor in a slightly different location?**
+
+
+<p align="center">
+  <img width="80%" src="/images/lens_confusion_circle.png">  
+  <p align="center">Figure 6: The distorted image of the point caused by incorrect placement of the sensor. Note, the center of the circle of confusion is at a slightly different distance from the principal axis than the image of the point.</p>
+</p>
+
+
+Figure 6 illustrates the process. The light cone focusing in the image of the point will be cut and, instead of a point we will have an illuminated disk - the ***circle of confusion***. The photos taken by such a wrongly placed sensor will be blurred or *not in focus*. 
+
+The distance between the center of the circle of confusion and the principle axis will be different from that of the point's image:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;h'\frac{l'}{l}&space;\equiv&space;\frac{hl'}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (5)
+</p>
+
+where *h''* is the distance between the center of the circle of confusion and the principal axis, *l* is the ideal distance between the sensor and the lens, *h* is the distance between the point and the principal axis and *h'* is the distance between the image of the point on the ideally located sensor and the principal axis. See Figure 6.
+
+It is clear from the diagram that depending on the diameter of the lens, the slight errors in the placement of the sensor can lead to a significant circle of confusion and, hence, blurring. Besides, the real world objects are not flat and we want to be able to make sharp photos of acceptable  sizes. We can control  the radius of the lens by placing a black screen with a small aperture right next to the lens (see Figure 7) 
+
+<p align="center">
+  <img width="80%" src="/images/lens_confusion_circle_aperture.png">  
+  <p align="center">Figure 7: The aperture disc reduces the circle of confusion.</p>
+</p>
+
+Assuming that the sensor is placed at distance *l' ≠ l* from the lens, where *l* is the correct distance determined from (3) and that the diameter of the aperture is *D*, it is easy to derive the diameter of the circle of confusion *c*:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?c&space;=&space;D\left(1-\frac{l'}{l}\right)," />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (6)
+</p>
+or, if we substitute the value of *l*:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?c=D\left(1&space;-l'&space;\left(\frac{1}{f}&space;-&space;\frac{1}{d}\right&space;)\right&space;)" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (7)
+</p>
+
+Surprisingly,  the diameter does not depend on the distance of the point from the principle axis rather depends only on the distance of the point from the lens( *l* depends on the *d*).  
+
+Note, that placing the ***aperture disk*** between the object and the lens does not change the position of the image of the point. The ideally located sensor will feel the presence of the aperture disk only by the reduction of the reaching light amount. 
+
+By sufficiently reducing the aperture diameter we can make the circle of confusion of any point smaller than the half of the sensor's pixel. Further reduction will not contribute to the sharpness (because we have reached the sensor's sharpness limit) but will rather  make the image only dimmer.
+
+Obviously, the smaller the aperture diameter the deeper objects we can have in focus. 
+
+Note, since the rays passing through the lens' center do not refract, in the limit of infinitely small aperture the presence of the lens can be neglected and this will turn into the pinhole camera described above. 
