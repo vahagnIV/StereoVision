@@ -154,14 +154,14 @@ Now, if we substitute *l'=f* in (7) two first terms will cancel each other and w
 It is clear from the formula that the larger is *d* the smaller is the circle of confusion *c*. So, for the fixed focal length *f* and aperture diameter *D* all points which are farther than *d<sub>0</sub>* from the lens
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?d_0&space;=&space;\frac{Df}{c}&space;\label{hyperfocal}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (9)
+<img src="https://latex.codecogs.com/gif.latex?d_0&space;=&space;\frac{Df}{c}&space;\label{hyperfocal}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (10)
 </p>
-will have a circle of confusion less than *c*. This is called ***hyperfocal distance***. If for *c* we take half the  size of our sensing pixel, all objects which are farther than (9) from the lens will be as sharp as our sensor can possibly make. 
+will have a circle of confusion less than *c*. This is called ***hyperfocal distance***. If for *c* we take half the  size of our sensing pixel, all objects which are farther than (10) from the lens will be as sharp as our sensor can possibly make. 
 
 Finally, the distance of the image of the point from the principal axis, according to (5) will read:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;\frac{hf}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (10)
+<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;\frac{hf}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (11)
 </p>
 
 Comparing this to (1) shows that we can use formulae  (2) for the fixed focus cameras.
