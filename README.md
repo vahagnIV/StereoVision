@@ -1,4 +1,4 @@
 # StereoVision
 My blog on stereo vision
 
-[A test link to cameras](cameras.md)
+1.  [Optical geometry of cameras](docs/cameras.md)
