@@ -1,3 +1,4 @@
+[Table of contents](/README.md)
 
 ### The Pinhole Camera
 
