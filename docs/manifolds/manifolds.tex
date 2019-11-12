@@ -21,13 +21,13 @@ On the other hand, we are not interested in the most general topological spaces 
 \begin{figure}[h]
 \centering
  \includegraphics[width=0.6\textwidth]{../../images/3DEuclidean.png}
- \caption{The 3-dimensional Euclidean space with Cartesian coordinate axis. The 3 coordinates $(X,Y,Z)$ are determined by passing an pependiculars to the corresponding axis and measuring the distance between the intersection points and the origin. }
+ \caption{The 3-dimensional Euclidean space with Cartesian coordinate axis. The 3 coordinates $(x,y,z)$ are determined by passing perpendiculars to the corresponding axis and measuring the distance between the intersection points and the origin. }
  \label{fig:3dcart}
 \end{figure}
  
-To any point in the Euclidean space $\mathbb{R}^n$  we can uniquely assign Cartesian coordinates $(X_1, X_2,\ldots, X_n)$. Conversely, the set of  Cartesian coordinates $(X_1, X_2,\ldots, X_n)$ uniquely determine a point in the Euclidean space. 
+To any point in the Euclidean space $\mathbb{R}^n$  we can uniquely assign a set of Cartesian coordinates $(x_1, x_2,\ldots, x_n)$. Conversely, the set of Cartesian coordinates $(x_1, x_2,\ldots, x_n)$ uniquely determines a point in the Euclidean space. 
 
-Since we now, how to introduce the coordinate systems in $\mathbb{R}^n$ let us see how we can utilize it for defining a coordinate system on a  topological space $M$. If we can define a continuous (maps open subsets to open subsets) invertable map $\varphi$ from an open subset $U$ of $\mathbb{R}^n$ onto an open subset of $M$ then this will cover that subset with a coordinate system. Indeed, for any coordinates $(X_1, X_2,\ldots, X_n)$ we will have a unique point in $\mathbb{R}^n$, which in its turn has a unique point on the subset $\varphi U \subset M$. 
+We know, how to introduce the coordinate systems in $\mathbb{R}^n$. Let us see how we can utilize it for defining a coordinate system on a generic topological space $M$. Assume we can define a continuous (maps open subsets to open subsets) invertable map $\varphi$ from an open subset $U$ of $\mathbb{R}^n$ onto an open subset of $M$. By doing so, we automatically cover that subset with a coordinate system. Indeed, for any set of coordinates $(x_1, x_2,\ldots, x_n)$ we will have a unique point in $\mathbb{R}^n$, which in its turn corresponds to a unique point on the subset $\varphi U \subset M$ via the map $\varphi$ (Fig \ref{fig:phimap}). 
 
 \begin{figure}[h]
 \centering
@@ -36,34 +36,34 @@ Since we now, how to introduce the coordinate systems in $\mathbb{R}^n$ let us s
  \label{fig:phimap}
 \end{figure}
 
-This mapping, together with the open subset $U\subset \mathbb{R}^n$ is called a {\it chart} on $M$. If we can cover the entire $M$ with finite or countable number of such charts so that any point on $M$ will be covered by at least one of them, then we will have coordinate system on the entire $M$. In order to specify a point on $M$ one has to specify the chart $(\varphi^i, U^{(i)})$ and coordinates $(X_1^{(i)}, \ldots, X_n^{(i)})\in U^{(i)}$. 
+This map, together with the open subset $U\subset \mathbb{R}^n$ is called a {\it chart} on $M$. If it is possible to cover the entire $M$ with a finite or countable number of such charts so that any point on $M$ will be covered by at least one of them, then we will have coordinate system on the entire $M$. In order to specify a point on $M$ one has to specify the chart $(\varphi^i, U^{(i)})$ and a set of coordinates $(x_1^{(i)}, \ldots, x_n^{(i)})\in U^{(i)}$. 
 
 The set of the charts is called {\it atlas}. A topological space with an {\it atlas} is called {\it manifold}. 
-In other words, a {\it manifold} is a topological space, which { \it locally } (in a neighborhood of a point) looks like an Euclidean space. 
+In other words, a {\it manifold} is a topological space, which { \it locally } (in a neighborhood of a point) looks like a Euclidean space. 
 
-If some point of $M$ is on two charts $U$ and $U'$ then there are some neighborhoods $V$ and $V'$ of that point on each of the charts such that all points in that neighborhoods are also pictured on both charts. Hence, we have a natural mapping $\phi'^{-1}\phi: V\mapsto V'$ of a part $V\subset U$ of one chart on a part of the other $V'\subset U'$ \cite{arn}.
+If some point of $M$ is on two charts $U$ and $U'$ then there are some neighborhoods $V$ and $V'$ of that point on each of the charts such that all points in that neighborhoods are pictured on both charts. Hence, we have a natural mapping $\phi'^{-1}\phi: V\mapsto V'$ of a part $V\subset U$ of one chart on a part of the other $V'\subset U'$ \cite{arn, egh}.
 
 Let us consider a few examples.
 
 \section{Examples}
 
 
-{\bf Euclidean space}
+{\bf Euclidean space $\mathbb{R}^n$}
 \newline
 
 Obviously, the Euclidean space is a manifold by itself. 
 \newline
 
-{\bf Sphere}
+{\bf Sphere $S^2$}
 \newline
 
 A unit sphere in 3D-space is defined by the following constraint:
 
 \begin{equation}
- X^2 + Y^2 + Z^2 = 1
+ x^2 + y^2 + z^2 = 1
 \end{equation}
 
-Obviously, the sphere is a 2-dimensional manifold. To define a chart on the sphere, consider a 2D-plane $\mathbb{R}^2$. The Cartesian coordinate system which $x$ and $y$ axis coincide with $X$ and $Y$ respectively.   Let us connect the point $P'$ on $(x,y)$ plane to the North Pole with a line. The corresponding point $P$ on the sphere would be the point of the intersection of that line with the sphere.  Figure \ref{fig:riemann}.
+Obviously, the sphere is a 2-dimensional manifold. To define a chart on the sphere, consider a 2D-plane $\mathbb{R}^2$ with its Cartesian coordinate system which $x$ and $y$ axis coincide with $X$ and $Y$ respectively. Let us connect the point $P'$ on $(x,y)$ plane to the North Pole with a line. The corresponding point $P$ on the sphere would be the point of the intersection of that line with the sphere.  Figure \ref{fig:riemann}.
 
 \begin{figure}[h]
 \centering
@@ -86,7 +86,7 @@ and the inverse
 \end{equation}
 where $\rho^2 = x^2 + y^2$
 
-A straightforward generalization of this construction exists for any dimensional spheres. 
+A straightforward generalization of this construction exists for any dimensional sphere. Hence, all spheres are covered by two charts.
 \newline
 
 {\bf Projective space}
@@ -97,18 +97,36 @@ Real projective space $\mathbb{RP}^n$\footnote{ In contrast to complex projectiv
 To eliminate this arbitrariness, we can divide all coordinates by a single chosen one, thus introducing a chart on $\mathbb{RP}^n$.
 
 \begin{equation}
-\xi^{(k)}_i = \frac{x_i}{x_k},  \quad i\neq k, \quad i,k = 1, \ldots, n+1 
+\xi^{(k)}_i = \frac{x_i}{x_k},  \quad i\neq k, \quad i,k = 1, \ldots, n+1.
 \end{equation}
 
 This chart is not defined for points for which $x_k = 0$, therefore, those points are not present on it. 
 
+For any two charts $\xi^{(j)}$ and $\xi^{(k)}$ the transition functions between them look as follows
+
+\begin{equation}
+ \xi^{(j)}_i = \frac{x_i}{x_j} \equiv \frac{x_i}{x_k}\frac{x_k}{x_j} \equiv \frac{\xi^{(k)}_i}{\xi^{(k)}_j}, \quad x_k, x_j\neq 0.
+\end{equation}
+
+
+\newpage
 \section{Examples (non-manifolds)}
 
-1-dimensional spaces with junctions are not manifolds. Intersecting 2-planes  are not manifolds.
+1-dimensional spaces with junctions are not manifolds.
+
+\begin{figure}[h]
+\centering
+ \includegraphics[width=0.7\textwidth]{../../images/NonManifolds.png}
+ \caption{ 1D spaces with junctions are not manifolds.}
+ \label{fig:nm}
+\end{figure}
+
+The space formed by the intersection of 2-planes is not a manifold.
 
 \begin{thebibliography}{1}
 \bibitem{topspace} \href{https://en.wikipedia.org/wiki/Topological_space}{Wiki: Topological space}
-\bibitem{arn} Arnold, Mathematical Methods in Classical Mechanics
+\bibitem{arn} ~V. Arnold, ``Mathematical Methods in Classical Mechanics''
+\bibitem{egh} ~T., Eguchi, ~P. ~B. Gilkey, ~A. ~J. Hanson,  ``Gravitation, Gauge Theories and Differential Geometry''
 \end{thebibliography}
 
 
