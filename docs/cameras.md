@@ -23,7 +23,7 @@ It is clear from Figure 2 that objects in general will appear upside down on the
 Using similarity relations between triangles it is easy to derive the following relation between the actual distance of the point from the principal axis and that of its image:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?h'=h\frac{f}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (1)
+<img src="/formulae/cameras/formula1.png" /> 
 </p>
 
 Let us rewrite this formula in the coordinate language. Let us introduce  the 3D world coordinate system  with axes (X,Y,Z) and 2D image coordinate system with axes (x,y) as shown in Figure 3.
@@ -40,7 +40,7 @@ If we first place the origin of the image coordinate system in the point where t
 
 In the digital world, however, the origin of the coordinate system on the image is placed in the top left corner of the image(sensor) so all points (0,0,Z) are projected to the principal point (c<sub>x</sub>, c<sub>y</sub>).  To include this, we rewrite the formulae as follows:  
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?%5Cleft%5C%7B%5Cbegin%7Barray%7D%7Bc%7D%20x%20%3D%20f%20%5Cfrac%7BX%7D%7BZ%7D%20&plus;%20c_x%5C%5C%20y%20%3D%20f%20%5Cfrac%7BY%7D%7BZ%7D%20&plus;%20c_y%20%5Cend%7Barray%7D%5Cright." />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (2)
+<img src="/formulae/cameras/formula2.png" /> 
 </p>
 
 This is the so-called ***projection formula*** for pinhole camera. In the upcoming posts we will linearize it  and represent in a matrix form. 
@@ -76,7 +76,7 @@ Normally the lenses are axially symmetric. The symmetry axis of the lens is call
 From Figure 5 it is easy to derive the ***lens formula***:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\frac{1}{f}&space;&plus;&space;\frac{1}{d}&space;=&space;\frac{1}{l}." />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (3)
+<img src="/formulae/cameras/formula3.png" /> 
 </p>
 
 This formula implies that if we place our sensor at distance the *l* determined from (3), all the points which are at the same distance *d* from the lens will be nicely projected on the sensor. Adjusting the position of the sensor to the lens will enable us to take sharp pictures of objects at different distances. 
@@ -84,7 +84,7 @@ This formula implies that if we place our sensor at distance the *l* determined 
 The relations between the distances from the principal axis read:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?h'&space;=&space;l\frac{h}{d}\equiv&space;\frac{fh}{d-f}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (4)
+<img src="/formulae/cameras/formula4.png" /> 
 </p>
 
 **What happens to the points which are at a slightly different distance?** or, equivalently,  **What happens if we place the sensor in a slightly different location?**
@@ -101,7 +101,7 @@ Figure 6 illustrates the process. The light cone focusing in the image of the po
 The distance between the center of the circle of confusion and the principle axis will be different from that of the point's image:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;h'\frac{l'}{l}&space;\equiv&space;\frac{hl'}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (5)
+<img src="/formulae/cameras/formula5.png" /> 
 </p>
 
 where *h''* is the distance between the center of the circle of confusion and the principal axis, *l* is the ideal distance between the sensor and the lens, *h* is the distance between the point and the principal axis and *h'* is the distance between the image of the point on the ideally located sensor and the principal axis. See Figure 6.
@@ -116,12 +116,12 @@ It is clear from the diagram that depending on the diameter of the lens, the sli
 Assuming that the sensor is placed at distance *l' ≠ l* from the lens, where *l* is the correct distance determined from (3) and that the diameter of the aperture is *D*, it is easy to derive the diameter of the circle of confusion *c*:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?c&space;=&space;D\left(1-\frac{l'}{l}\right)," />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (6)
+<img src="/formulae/cameras/formula6.png" /> 
 </p>
 or, if we substitute the value of *l*:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?c=D\left(1&space;-l'&space;\left(\frac{1}{f}&space;-&space;\frac{1}{d}\right&space;)\right&space;)" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (7)
+<img src="/formulae/cameras/formula7.png" /> 
 </p>
 
 Surprisingly,  the diameter does not depend on the distance of the point from the principle axis rather depends only on the distance of the point from the lens( *l* depends on the *d*).  
@@ -141,7 +141,7 @@ Since in the future posts we will mostly play with web cameras and the majority 
 First of all, let us rewrite the formula (3) as follows:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?l=\frac{df}{d-f}\equiv\frac{f}{1&space;-&space;f/d}." />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (8)
+<img src="/formulae/cameras/formula8.png" /> 
 </p>
 
 Notice, that for sufficiently far objects *d >> f* the denominator in (8) goes to one and, therefore, the ideal location of the sensor will be close to the focus. The typical focal length of the modern cameras bounces around *1-10 mm* so this condition is satisfied with high precision for our everyday objects and distances (*~ 1m*). We can assume that with high precision that the sensors of the fixed-focus webcams are placed in the focus of the lens. 
@@ -149,20 +149,20 @@ Notice, that for sufficiently far objects *d >> f* the denominator in (8) goes t
 Now, if we substitute *l'=f* in (7) two first terms will cancel each other and we will arrive to the following formula:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?c=\frac{Df}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (9)
+<img src="/formulae/cameras/formula9.png" /> 
 </p>
 
 It is clear from the formula that the larger is *d* the smaller is the circle of confusion *c*. So, for the fixed focal length *f* and aperture diameter *D* all points which are farther than *d<sub>0</sub>* from the lens
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?d_0&space;=&space;\frac{Df}{c}&space;\label{hyperfocal}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (10)
+<img src="/formulae/cameras/formula10.png" /> 
 </p>
 will have a circle of confusion less than *c*. This is called ***hyperfocal distance***. If for *c* we take half the  size of our sensing pixel, all objects which are farther than (10) from the lens will be as sharp as our sensor can possibly make. 
 
 Finally, the distance of the image of the point from the principal axis, according to (5) will read:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?h''&space;=&space;\frac{hf}{d}" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (11)
+<img src="/formulae/cameras/formula11.png" /> 
 </p>
 
 Comparing this to (1) shows that we can use formulae  (2) for the fixed focus cameras.
