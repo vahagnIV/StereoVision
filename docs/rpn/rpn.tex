@@ -1,14 +1,71 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amsfonts, graphicx}
-\usepackage{hyperref}
+\usepackage{hyperref, indentfirst}
 %opening
-\title{}
+\title{Real Projective Space}
 \author{}
 
-\begin{document}
+%\vspace{-15ex}
+\date{}
 
-\section{Introduction}
+
+\begin{document}
+\maketitle
+\section{Definition}
+
+Real projective space $\mathbb{RP}^n$ is the set of lines in $\mathbb{R}^{n+1}$ passing through the origin. Given a Cartesian coordinate system $(x_1,\ldots, x_{n+1})$ in $\mathbb{R}^{n+1}$ there are $n+1$ natural charts of $\mathbb{RP}^n$ defined as follows:
+
+\begin{equation}
+ \xi_i^{(k)} = \frac{x_i}{x_k}, \quad x_k\neq 0 \label{chartk},
+\end{equation}
+
+with the transition functions between the $j$-th and $k$-th charts:
+
+\begin{equation}
+ \xi^{(k)}_i = \frac{\xi^{(j)}_i }{\xi^{(j)}_k }
+\end{equation}
+
+For the most dimensions the {\it atlas } of this charts is overcomplete \cite{mhopkins}.
+
+\section{Homogeneous coordinates}
+
+Two points $x$ and $\alpha x$ are on the same line passing through the origin. Hence, from the perspective of the projective space, the coordinates $(x_1, \ldots, x_{n+1})$ are regarded as {\it homogeneous coordinates}, in contrast to {\it inhomogeneous coordinates $\xi$ \eqref{chartk}}. Clearly, the {\it homogeneous coordinates} are defined up to an arbitrary multiplier $\alpha \neq 0$. Throughout the post, we will use {\it homogeneous}  and {\it inhomogeneous} coordinates interchangeably.
+
+\section{Hyperplanes as dual projective space}
+
+Consider an $n$-dimensional hyperplane of $\mathbb{R}^{n+1}$ passing through the origin. It is defined as follows:
+
+\begin{equation}
+ \sum\limits_{i=1}^{n+1} a_i x_i \equiv a\cdot x = 0\label{hyperplane}
+\end{equation}
+
+Obviously, the parameters $a$ are defined up to a scalar multiplier, i.e. $\forall\alpha\neq 0$ the parameters $a$ and $\alpha a$ define the same hyperplane. This means, that the set of $n$-dimensional hyperplanes passing through the origin form a dual projective space $\mathbb{RP}^{n*}$ with $a$'s being its {\it homogeneous coordinates}. 
+
+An invertable linear transformation $H: x \to H x$ with respect to \eqref{hyperplane} transforms the dual space as follows:
+\begin{equation}
+ x\to Hx, \quad a\to H^{-T} a.
+\end{equation}
+
+In the language of vector analysis they say that the hyperplanes transform covariantly.
+
+{\tiny Strictly speaking, the co/contra-variant transformations are defined for special geometric objects called tensors only. However, since we restrict ourselves to considering only linear transformations of the coordinates, we can use those terms with regard to the coordinates and their duals. }
+
+\section{Conics on $\mathbb{RP}^n$}
+
+Let $C$ be an $n+1 \times n+1$ dimensional matrix. Then, if $C$ is not strictly positive, or strictly negative definite, then the equation
+\begin{equation}
+ x^T C x = 0\label{conic}
+\end{equation}
+defines a conic surface.
+
+
+%The intersection of 2 $n$-dimensional hyperplanes is an $n-2$ dimensional plane.
+
+
+
+\section{$\mathbb{RP}^2$}
+
 
 In this letter I want to share an interesting fact about the parallel lines in photos and their intersection points.
 
@@ -119,6 +176,11 @@ The result is illustrated in the Fig \ref{fig:drawed}
  \caption{The parallel lines intersect on the line at infinity. }
  \label{fig:drawed}
 \end{figure}
+
+\begin{thebibliography}{1}
+\bibitem{mhopkins} Hopkins M.J. (1989) Minimal atlases of real projective spaces. In: Carlsson G., Cohen R., Miller H., Ravenel D. (eds) Algebraic Topology. Lecture Notes in Mathematics, vol 1370. Springer, Berlin, Heidelberg
+\end{thebibliography}
+
 
 \end{document}
 
