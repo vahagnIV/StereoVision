@@ -3,9 +3,9 @@
 \usepackage{amsmath, amsfonts, graphicx}
 \usepackage{hyperref, indentfirst}
 %opening
-\title{Real Projective Space}
+\title{Projective Spaces}
 \author{}
-
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
 %\vspace{-15ex}
 \date{}
 
@@ -30,7 +30,7 @@ For the most dimensions the {\it atlas } of this charts is overcomplete \cite{mh
 
 \section{$\mathbb{CP}^n$}
 
-A straightforward generalization of real generalization of real projective spaces are their complex analogues. Although in contrast to the real projective spaces the complex ones do not have a nice interpretation from the point of view of cameras and photos, they possess nice mathematical properties which can be utilized for the study of our subject. 
+A straightforward generalization of real projective spaces are their complex analogues. Although in contrast to the real projective spaces the complex ones do not have a nice interpretation from the point of view of cameras and photos, they possess nice mathematical properties which can be utilized for the study of our subject. 
 
 By analogy with \eqref{chartk} we define $n+1$ charts as follows:
 
@@ -40,11 +40,11 @@ By analogy with \eqref{chartk} we define $n+1$ charts as follows:
 
 Obviously, the projection $z\to \Re{(z)}$ projects $\xi$ on $\Re{(\xi)}$. Hence, we can think about the real projective space $\mathbb{RP}^n$ as about the real part projection of $\mathbb{CP}^n$. 
 
-Since $\mathbb{CP}^n$ has more complex structure it geometry is more reach and we can consider some quantities which do not make sense of the real projective spaces at all.
+Since $\mathbb{CP}^n$ has more complex structure, its geometry is richer and we can consider some constructions which do not make sense of the real projective spaces at all.
 
 \section{Homogeneous coordinates}
 
-Two points $x$ and $\alpha x$  ($x \in \mathbb{R},\mathbb{C}$)are on the same line passing through the origin. Hence, from the perspective of the projective space, the coordinates $(x_1, \ldots, x_{n+1})$ are regarded as {\it homogeneous coordinates}, in contrast to {\it inhomogeneous coordinates $\xi$ \eqref{chartk}}. Clearly, the {\it homogeneous coordinates} are defined up to an arbitrary multiplier $\alpha \neq 0$. Throughout the post, we will use {\it homogeneous}  and {\it inhomogeneous} coordinates interchangeably.
+Two points $x$ and $\alpha x$  ($x \in \mathbb{R},\mathbb{C}$) are on the same line passing through the origin. Hence, from the perspective of the projective space, the coordinates $(x_1, \ldots, x_{n+1})$ are regarded as {\it homogeneous coordinates}, in contrast to {\it inhomogeneous coordinates $\xi$ \eqref{chartk}}. Clearly, the {\it homogeneous coordinates} are defined up to an arbitrary multiplier $\alpha \neq 0$. Throughout the post, we will use {\it homogeneous}  and {\it inhomogeneous} coordinates interchangeably.
 
 \section{Hyperplanes as dual projective space}
 
@@ -65,13 +65,30 @@ In the language of vector analysis they say that the hyperplanes transform covar
 
 {\tiny Strictly speaking, the co/contra-variant transformations are defined for special geometric objects called tensors only. However, since we restrict ourselves to considering only linear transformations of the coordinates, we can use those terms with regard to the coordinates and their duals. }
 
-\section{Conics on $\mathbb{RP}^n$}
+\section{Conics}
 
-Let $C$ be an $n+1 \times n+1$ dimensional matrix. Then, if $C$ is not strictly positive, or strictly negative definite, then the equation
+Consider a set of pure quadratic equations on $\mathbb{C}^{n+1}$.
+
 \begin{equation}
- x^T C x = 0\label{conic}
+ x^T C x = 0,\label{conic}
 \end{equation}
-defines a conic surface.
+where  $C$ is a symmetric $(n+1) \times (n+1)$ dimensional matrix. This equations define a conic surface in $\mathbb{C}^{n+1}$ which is projected on the corresponding $\mathbb{CP}^n$. On the $k$-th map \eqref{cchartk} these equations have the most generic quadratic form:
+
+\begin{equation}
+{\xi^{(k)}}^TC^{(k)}_{n\times n}\xi^{(k)} + 2* C^{(k)}_{n}\xi^{(k)} + C_{kk} = 0,
+\end{equation}
+where $C^{(k)}_{n\times n}$ is a matrix obtained from $C$ by removing the $k$-th row and $k$-th column, 
+
+
+Let us observe, that the matrix $C$ is defined up to an arbitrary multiplier. Indeed, the transformation $C\to \alpha C$, $\alpha\neq 0$ does not affect the equations \eqref{conic}.
+
+%If the matrix $C$ is positive definite, then all solutions of \eqref{conic} are pure imaginary. Indeed, let the matrix $A$ diagonalize $C$, i.e.
+%\begin{equation}
+%A^T C A = \diag \{\lambda_1, \ldots, \lambda_{n+1}\}
+%\end{equation}
+ 
+
+ 
 
 
 %The intersection of 2 $n$-dimensional hyperplanes is an $n-2$ dimensional plane.
@@ -80,15 +97,6 @@ defines a conic surface.
 
 \section{$\mathbb{RP}^2$}
 
-
-In this letter I want to share an interesting fact about the parallel lines in photos and their intersection points.
-
- To simplify things, the photos will be considered taken by a pinhole camera, which is true under certain very weak conditions for almost all modern cameras. The coordinates $(\xi_1, \xi_2)$  on the photo are related to the world coordinates of the camera as follows:
-
-\begin{equation}
-\xi_1 = f\frac{x_1}{x_3}, \quad \xi_2 = f\frac{x_2}{x_3},\label{cameraprojection}
-\end{equation}
-where $f$ is the focal length of the camera lens.
 
 The directions of the axes $\xi_1$ and $x_1$ coincide in the world $\mathbb{R}^3$ as well as those for the axes  $\xi_2$ and $x_2$. The axis $x_3$ is pointed from the viewer and coincides with the principal axis of the camera lens. 
 
