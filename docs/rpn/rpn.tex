@@ -68,27 +68,58 @@ In the language of vector analysis they say that the hyperplanes transform covar
 
 \section{Conics}
 
-Consider a set of pure quadratic equations on $\mathbb{C}^{n+1}$.
+Consider a set of pure quadratic equations over a field $\mathbb{F}$;  $\mathbb{F} = \mathbb{C}, \mathbb{R}$.
 
 \begin{equation}
- \bar x^T C x = 0,\label{conic}
+ x^\dag C x = 0,\label{conic}
 \end{equation}
-where  $C$ is an $(n+1) \times (n+1)$ dimensional Hermitian matrix $C^\dag  = C$. 
+where  $C$ is an $(n+1) \times (n+1)$ dimensional matrix and $x^\dag \equiv {\bar x}^T$ is the so-called Hermitian conjugate of $x$. For the real coordinates $x$ the operation $\cdot^\dag$ coincides with the transpose. 
 
-This equation defines a conic surface in $\mathbb{C}^{n+1}$ which is projected on the corresponding $\mathbb{CP}^n$. On the $k$-th map \eqref{cchartk} these equation have the most generic quadratic form:
+It is clear, that 
+\begin{equation}
+ C^\dag\equiv {\bar C}^T= C,\label{hermitian}
+\end{equation}
+because the anti-Hermitian part vanishes by itself. 
+
+Notice, that since the complex conjugate of the real numbers equal to themselves, for real matrices $C$ the condition \eqref{hermitian} coincides with \eqref{sym}. Because of this,  below we will only use notations for complex coordinates and complex matrices having in mind, that for real coordinates we can re
+
+
+This equation defines a conic surface in $\mathbb{F}^{n+1}$ which in its turn is projected on the corresponding $\mathbb{CF}^n$. 
+
+Firstly, let us observe, that the matrix $C$ is defined up to an arbitrary multiplier. Indeed, the transformation $C\to \alpha C$, $\alpha\neq 0$ does not affect the equation \eqref{conic}.
+
+Secondly, an arbitrary linear transformation $x \to H x$ transforms the matrix $C$ as follows:
 
 \begin{equation}
-{\xi^{(k)}}^TC^{(k)}_{n\times n}\xi^{(k)} + 2* C^{(k)}_{n}\xi^{(k)} + C_{kk} = 0,
+ C \to H^{-\dag} C H^{-1}.\label{ctrans}
 \end{equation}
-where $C^{(k)}_{n\times n}$ is a matrix obtained from $C$ by removing the $k$-th row and $k$-th column, 
+
+On the other hand, according to the Spectral Theorem, the matrix which diagonalizes a Hermitian matrix $C$ is a unitary matrix, i.e. 
+
+\begin{equation}
+ U^{-1} C U = \diag\{\alpha_1,\ldots, \lambda_{n+1}\},\quad  U^\dag U = \mathbb{1}.
+\end{equation}
+
+This means, that if a matrix $U$ diagonlaizes $C$, then we can choose $H=U^{-1}$ and that will transform $C$ to a diagonal matrix according to \eqref{ctrans}. 
+
+The unitary matrices are complex analogues of the orthogonal matrices $R$, which, instead satify 
+\begin{equation}
+ R^TR=\mathbb{1}.
+\end{equation}
 
 
-Let us observe, that the matrix $C$ is defined up to an arbitrary multiplier. Indeed, the transformation $C\to \alpha C$, $\alpha\neq 0$ does not affect the equations \eqref{conic}.
+Now, let the matrix $H$ diagonalizes $C$. Then, in the new coordinate system $\tilde{x} = H x$ we have:
 
-%If the matrix $C$ is positive definite, then all solutions of \eqref{conic} are pure imaginary. Indeed, let the matrix $A$ diagonalize $C$, i.e.
-%\begin{equation}
-%A^T C A = \diag \{\lambda_1, \ldots, \lambda_{n+1}\}
-%\end{equation}
+\begin{equation}
+ \sum\limits_{i=1}^{n+1} \lambda_i \tilde{x}_i^2 = 0
+\end{equation}
+
+
+
+If the matrix $C$ is positive definite, then all solutions of \eqref{conic} are pure imaginary. Indeed, let the matrix $A$ diagonalize $C$, i.e.
+\begin{equation}
+d
+\end{equation}
  
 
  
