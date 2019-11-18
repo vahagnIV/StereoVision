@@ -13,14 +13,13 @@
 
 \begin{document}
 \maketitle
-\section{Definition of $\mathbb{RP}^n$}
+\section{Definition}
 
-Real projective space $\mathbb{RP}^n$ is the set of lines in $\mathbb{R}^{n+1}$ passing through the origin. Given a Cartesian coordinate system $(x_1,\ldots, x_{n+1})$ in $\mathbb{R}^{n+1}$ there are $n+1$ natural charts of $\mathbb{RP}^n$ defined as follows:
+Real/complex projective space $\mathbb{RP}^n/\mathbb{CP}^n$ is the set of lines in $\mathbb{R}^{n+1}/\mathbb{C}^{n+1}$ passing through the origin. Given a Cartesian coordinate system $(x_1,\ldots, x_{n+1})$ in $\mathbb{R}^{n+1}/\mathbb{C}^{n+1}$ there are $n+1$ natural charts of $\mathbb{RP}^n/\mathbb{CP}^n$ defined as follows:
 
 \begin{equation}
  \xi_i^{(k)} = \frac{x_i}{x_k}, \quad x_k\neq 0 \label{chartk},
 \end{equation}
-
 with the transition functions between the $j$-th and $k$-th charts:
 
 \begin{equation}
@@ -29,19 +28,20 @@ with the transition functions between the $j$-th and $k$-th charts:
 
 For the most dimensions the {\it atlas } of this charts is overcomplete \cite{mhopkins}.
 
-\section{$\mathbb{CP}^n$}
-
-A straightforward generalization of real projective spaces are their complex analogues. Although in contrast to the real projective spaces the complex ones do not have a nice interpretation from the point of view of cameras and photos, they possess nice mathematical properties which can be utilized for the study of our subject. 
-
-By analogy with \eqref{chartk} we define $n+1$ charts as follows:
+Although they share a number of common properties, the real and complex projective spaces are different. To illustrate this, let us consider the relation of these spaces to spheres. An $n$-dimensional sphere can be defined as the set of rays (not lines!) starting from the origin. Indeed, a ray intersects the sphere with the center in the origin in a single point and hence uniquely specifies the point of the sphere. Contrary, a point on the sphere uniquely identifies a ray from the origin. On the other hand, a line passing through the origin intersects the sphere in two antipodal points. Hence, we can think about the real projective space as about a sphere, where we identified all antipodal points (all rays which are on the same line). In the language of topological fibrations this is written as follows:
 
 \begin{equation}
- \xi_i^{(k)} = \frac{z_i}{z_k}, \quad z_k\neq 0, \quad z, \xi \in \mathbb{C} \label{cchartk},
+\mathbb{RP}^n = S^{n}/\mathbb{Z}^2,
+\end{equation} 
+where $\mathbb{Z}^2$ is the cyclic group $(-1,1)$ of order 2. Since $\mathbb{RP}^1 = S^1$, for $n=1$ this is the famous M\"obius strip.
+
+A similar construction relates $2n+1$ dimensional spheres and complex projective spaces:
+\begin{equation}
+\mathbb{CP}^n = S^{2n+1}/S^1.
 \end{equation}
+This is the so-called first Hopf's fibration.
 
-Obviously, the projection $z\to \Re{(z)}$ projects $\xi$ on $\Re{(\xi)}$. Hence, we can think about the real projective space $\mathbb{RP}^n$ as about the real part projection of $\mathbb{CP}^n$. 
-
-Since $\mathbb{CP}^n$ has more complex structure, its geometry is richer and we can consider some constructions which do not make sense of the real projective spaces at all.
+This example illustrates that the complex projective spaces have richer geometry than real projective ones. On the other hand, 
 
 \section{Homogeneous coordinates}
 
@@ -49,31 +49,29 @@ Two points $x$ and $\alpha x$  ($x \in \mathbb{R},\mathbb{C}$) are on the same l
 
 \section{Hyperplanes as dual projective space}
 
-Consider an $n$-dimensional hyperplane of $\mathbb{R}^{n+1}$ passing through the origin. It is defined as follows:
+Consider an $n$-dimensional hyperplane of $\mathbb{R}^{n+1}/\mathbb{C}^{n+1}$ passing through the origin. An n dimensional plane is defined via the following linear constraint:
 
 \begin{equation}
  \sum\limits_{i=1}^{n+1} a_i x_i \equiv a\cdot x = 0\label{hyperplane}
 \end{equation}
 
-Obviously, the parameters $a$ are defined up to a scalar multiplier, i.e. $\forall\alpha\neq 0$ the parameters $a$ and $\alpha a$ define the same hyperplane. This means, that the set of $n$-dimensional hyperplanes passing through the origin form a dual projective space $\mathbb{RP}^{n*}$ with $a$'s being its {\it homogeneous coordinates}. 
+Obviously, the parameters $a$ are defined up to a scalar multiplier, i.e. $\forall\alpha\neq 0$ the parameters $a$ and $\alpha a$ define the same hyperplane. This means, that the set of $n$-dimensional hyperplanes passing through the origin form a dual projective space $\mathbb{RP}^{n*}/\mathbb{CP}^{n*}$ with $a$'s being its {\it homogeneous coordinates}. 
 
 An invertable linear transformation $H: x \to H x$ with respect to \eqref{hyperplane} transforms the dual space as follows:
 \begin{equation}
  x\to Hx, \quad a\to H^{-T} a.
 \end{equation}
 
-In the language of vector analysis they say that the hyperplanes transform covariantly.
-
-{\tiny Strictly speaking, the co/contra-variant transformations are defined for special geometric objects called tensors only. However, since we restrict ourselves to considering only linear transformations of the coordinates, we can use those terms with regard to the coordinates and their duals. }
+In the language of vector analysis they say that the hyperplanes transform covariantly\footnote{ Strictly speaking, the co/contra-variant transformations are defined for special geometric objects called tensors(vectors) only. However, since we restrict ourselves to considering only linear transformations of the coordinates, we can use those terms with regard to the coordinates and their duals. }
 
 \section{Conics}
 
-Consider a set of pure quadratic equations over a field $\mathbb{F}$;  $\mathbb{F} = \mathbb{C}, \mathbb{R}$.
+Consider the following  pure quadratic equation:
 
 \begin{equation}
  x^\dag C x = 0,\label{conic}
 \end{equation}
-where  $C$ is an $(n+1) \times (n+1)$ dimensional matrix and $x^\dag \equiv {\bar x}^T$ is the so-called Hermitian conjugate of $x$. For the real coordinates $x$ the operation $\cdot^\dag$ coincides with the transpose. 
+where  $C$ is an $(n+1) \times (n+1)$ dimensional matrix and $x^\dag \equiv {\bar x}^T$ is the so-called Hermitian conjugate of $x$ - the complex conjugate transposed. Since the complex conjugate of a real number equals to itself,  for real coordinates $x$ the operation $\cdot^\dag$ coincides with the transpose. 
 
 It is clear, that 
 \begin{equation}
