@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amsfonts, graphicx}
 \usepackage{hyperref, indentfirst}
+\usepackage{bbold}
 %opening
 \title{Projective Spaces}
 \author{}
@@ -70,9 +71,11 @@ In the language of vector analysis they say that the hyperplanes transform covar
 Consider a set of pure quadratic equations on $\mathbb{C}^{n+1}$.
 
 \begin{equation}
- x^T C x = 0,\label{conic}
+ \bar x^T C x = 0,\label{conic}
 \end{equation}
-where  $C$ is a symmetric $(n+1) \times (n+1)$ dimensional matrix. This equations define a conic surface in $\mathbb{C}^{n+1}$ which is projected on the corresponding $\mathbb{CP}^n$. On the $k$-th map \eqref{cchartk} these equations have the most generic quadratic form:
+where  $C$ is an $(n+1) \times (n+1)$ dimensional Hermitian matrix $C^\dag  = C$. 
+
+This equation defines a conic surface in $\mathbb{C}^{n+1}$ which is projected on the corresponding $\mathbb{CP}^n$. On the $k$-th map \eqref{cchartk} these equation have the most generic quadratic form:
 
 \begin{equation}
 {\xi^{(k)}}^TC^{(k)}_{n\times n}\xi^{(k)} + 2* C^{(k)}_{n}\xi^{(k)} + C_{kk} = 0,
