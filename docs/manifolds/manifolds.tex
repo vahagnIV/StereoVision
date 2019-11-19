@@ -6,13 +6,20 @@
 %opening
 \title{}
 \author{}
+\title{Manifolds}
+\date{}
 
 \begin{document}
 
+\maketitle
 
-\section{Manifold}
+\section{Introduction}
 
-In this post I would like to speak about an abstract mathematical construction called {\it manifold}. In the future we will work with a limited number of manifolds, however, I believe that introducing some fundamental concepts of the theory of manifolds is, at least, useful. 
+In the previous posts we deduced the formula which relates the 3D coordinates of a point in space to the 2D coordinates of its image on the photo. We also understood, that by extending the domain of the formula we model the photo as a special kind of topological space - real projective space $\mathbb{RP}^2$. 
+
+Before proceeding any further, I would like to introduce a few mathematical notions, which hopefully will simplify the understanding of the underlying geometry. Namely, In this post I would like to speak about an abstract mathematical construction called {\it manifold}. In the future we will work with a limited number of manifolds, however, I believe that introducing some fundamental concepts of the theory of manifolds is, at least, useful. 
+
+\section{Definition}
 
 A {\it topological space } is a set of points where all open subsets  are defined. We will not dive in any deeper into this definition. For more information about the topological spaces like what is an {\it open subset} check the Wikipedia article \cite{topspace}. 
 
@@ -89,12 +96,12 @@ where $\rho^2 = x^2 + y^2$
 A straightforward generalization of this construction exists for any dimensional sphere. Hence, all spheres are covered by two charts.
 \newline
 
-{\bf Projective space $\mathbb{RP}^n$}
+{\bf Projective space }
 \newline
 
-Real projective space $\mathbb{RP}^n$\footnote{ In contrast to complex projective space $\mathbb{CP}^n$, which is out of our consideration.  } is the set of lines in $\mathbb{R}^{n+1}$ passing through the origin. A point $x \in \mathbb{R}^{n+1}, x\neq 0$ uniquely defines a line passing through the origin. On the other hand, the same line is defined by any other point $x' = \alpha x$. 
+Real(complex) projective space $\mathbb{RP}^n$ ($\mathbb{CP}^n$) is the set of lines in $\mathbb{R}^{n+1}$ ($\mathbb{C}^{n+1}$) passing through the origin. A point $x \neq 0$ uniquely defines a line passing through the origin. On the other hand, the same line is defined by any other point $x' = \alpha x$. 
 
-To eliminate this arbitrariness, we can divide all coordinates by a single chosen one, thus introducing a chart on $\mathbb{RP}^n$.
+To eliminate this arbitrariness, we can divide all coordinates by a single chosen one, thus introducing a chart on $\mathbb{RP}^n$ ($\mathbb{CP}^n$).
 
 \begin{equation}
 \xi^{(k)}_i = \frac{x_i}{x_k},  \quad i\neq k, \quad i,k = 1, \ldots, n+1.
