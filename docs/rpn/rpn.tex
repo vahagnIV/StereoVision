@@ -71,48 +71,71 @@ Consider the following  pure quadratic equation:
 \begin{equation}
  x^\dag C x = 0,\label{conic}
 \end{equation}
-where  $C$ is an $(n+1) \times (n+1)$ dimensional matrix and $x^\dag \equiv {\bar x}^T$ is the so-called Hermitian conjugate of $x$ - the complex conjugate transposed. Since the complex conjugate of a real number equals to itself,  for real coordinates $x$ the operation $\cdot^\dag$ coincides with the transpose. 
+where  $C$ is an $(n+1) \times (n+1)$ dimensional matrix and $x^\dag \equiv {\bar x}^T$ is the so-called Hermitian conjugate of $x$ - the complex conjugate transposed. Since the complex conjugate of a real number equals to itself,  for real coordinates $x$ the operation $x^\dag$ coincides with the transpose. 
 
 It is clear, that 
+
 \begin{equation}
  C^\dag\equiv {\bar C}^T= C,\label{hermitian}
 \end{equation}
-because the anti-Hermitian part vanishes by itself.  Matrices which satisfy the condition \eqref{hermitian} are called Hermitian matrices. Obviously, the real analogues of Hermitian matrices are the symmetric ones.
+because the anti-Hermitian part in \eqref{conic} vanishes by itself.  Matrices which satisfy the condition \eqref{hermitian} are called Hermitian matrices. Obviously, the real analogues of Hermitian matrices are the symmetric ones.
 
-Firstly, let us observe, that the matrix $C$ is defined up to an arbitrary multiplier. Indeed, the transformation $C\to \alpha C$, $\alpha\neq 0$ does not affect the equation \eqref{conic}.
+Let us observe, that the matrix $C$ is defined up to an arbitrary multiplier. Indeed, the transformation $C\to \alpha C$, $\alpha\neq 0$ does not affect the equation \eqref{conic}.
 
-Secondly, an arbitrary linear transformation $x \to H x$ transforms the matrix $C$ as follows:
+An arbitrary linear transformation $x \to H x$ transforms the matrix $C$ as follows:
 
 \begin{equation}
  C \to H^{-\dag} C H^{-1}.\label{ctrans}
 \end{equation}
 
-On the other hand, according to the Spectral Theorem, the matrix which diagonalizes a Hermitian matrix $C$ is a unitary matrix, i.e. 
+On the other hand, according to the Spectral Theorem, the matrix which diagonalizes a Hermitian matrix $C$ is a unitary matrix, i.e. for a Hermitian matrix $C$ there exists a unitary matrix $U$ such that
 
 \begin{equation}
- U^{-1} C U = \diag\{\alpha_1,\ldots, \lambda_{n+1}\},\quad  U^\dag U = \mathbb{1}.
+ U^{-1} C U = \diag\{\lambda_1,\ldots, \lambda_{n+1}\},\quad  U^\dag = U^{-1}.
 \end{equation}
 
 This means, that if a matrix $U$ diagonlaizes $C$, then we can choose $H=U^{-1}$ and that will transform $C$ to a diagonal matrix according to \eqref{ctrans}. 
 
-Now, let the matrix $H$ diagonalizes $C$. Then, in the new coordinate system $\tilde{x} = H x$ we have:
+If the matrix $C$ is a real symmetric matrix, then the matrix $R$ which diagonalizes $C$ is a rotation matrix
+\begin{equation}
+ R^TR=\mathbb{1}\quad\text{or}\quad R^{-1} = R^{T}.
+\end{equation}
+Note, that the real unitary matrices are orthogonal.
+
+
+Let the matrix $U$ diagonalizes $C$. Then, in the new coordinate system  $\tilde{x} = U x$ the equation \eqref{conic} takes the following form:
 
 \begin{equation}
  \sum\limits_{i=1}^{n+1} \lambda_i \tilde{x}_i^2 = 0\label{cdiag}
 \end{equation}
 
-If the matrix $C$ is positive definite,i.e. $\lambda_i> 0, \forall i$, then the equation \eqref{cdiag} does not have real solutions.
+For complex coordinates and matrices $C$ \eqref{cdiag} and \eqref{conic} define conic surfaces in $\mathbb{C}^{n+1}$. 
 
-The unitary matrices are complex analogues of the orthogonal matrices $R$, which, instead satify 
+On the other hand, for real coordinates $x$ and symmetric matrices $C$ the equation\eqref{cdiag} has non-trivial solution only if there are at least 2 eigenvalues with opposite signs. Indeed, if $\lambda_i >0$ $\forall i$ implies that $\tilde{x} = 0$, which, in its term implies that $x = 0$ (since the null-space of a rotation matrix is 0).
+
+Nevertheless, if the conditions above satisfied, the equation \eqref{conic} defines a conic surface in the (complex) Euclidean space which is projected on the corresponding projective space. In particular, the image of the surface on the $k$-th map is defined via the projection formula \eqref{chartk}.
+
+The equation \eqref{conic} on the $k$-th map has the form of the most generic quadratic equation:
 \begin{equation}
- R^TR=\mathbb{1}.
+ x^\dag C x / x^\dag x = \xi^\dag C^{(k)} + \xi^\dag C^k + C_k \xi + C_{k,k}= 0,
+\end{equation}
+where $C^{(k)}$ is the matrix obtained by removing $k$-th row and column from $C$ and $C_k$ is the $k$-th row and $C^k$ is the $k$-th column of $C$ with the removed $k$-th element. 
+
+{\bf Example}
+
+Let $C = \diag{\{1,1,\ldots,1,-1\}}$. Then in the ambient space $\mathbb{R}^{n+1}$ $x$ the equation \eqref{conic} looks as follows:
+\begin{equation}
+ \sum\limits_{i=1}^n x_i^2 = x_{n+1}^2
 \end{equation}
 
+or, projected on the $n+1$-th chart:
 
-This equation defines a conic surface in $\mathbb{C}^{n+1}$ which in its turn is projected on the corresponding $\mathbb{CP}^n$.  
+\begin{equation}
+\sum\limits_{i=1}^n \xi_i^2  = 1.
+\end{equation}
+The latter is the equation of $n-1$-dimensional sphere.
 
 
-%The intersection of 2 $n$-dimensional hyperplanes is an $n-2$ dimensional plane.
 
 
 
