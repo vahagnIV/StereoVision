@@ -18,20 +18,20 @@ template<typename T>
 class Row {
 
  public:
-  Row(int length) : length_(length), data_(std::shared_ptr<T[]>(new T[length_])), out_memory_(false), span_(1) {
+  Row(int length) : length_(length), data_(std::shared_ptr<T[]>(new T[length_])), data_is_external_(false), span_(1) {
 
   }
 
-  Row(T *data, int length, int span = 1) : length_(length), out_memory_(true), span_(span), data_(data) {
+  Row(T *data, int length, int span = 1) : length_(length), data_is_external_(true), span_(span), data_(data) {
 
   }
 
   const T *Data() const {
-    return out_memory_ ? std::get<T *>(data_) : std::get<std::shared_ptr<T[]> >(data_).get();
+    return data_is_external_ ? std::get<T *>(data_) : std::get<std::shared_ptr<T[]> >(data_).get();
   }
 
   T *Data() {
-    return out_memory_ ? std::get<T *>(data_) : std::get<std::shared_ptr<T[]> >(data_).get();
+    return data_is_external_ ? std::get<T *>(data_) : std::get<std::shared_ptr<T[]> >(data_).get();
   }
 
   unsigned int Length() const { return length_; }
@@ -92,7 +92,7 @@ class Row {
  private:
   unsigned int length_;
   std::variant<std::shared_ptr<T[]>, T *> data_;
-  bool out_memory_;
+  bool data_is_external_;
   int span_;
 
 };

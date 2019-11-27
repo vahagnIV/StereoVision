@@ -5,15 +5,28 @@
 #include <iostream>
 #include <variant>
 #include <memory>
+#include <matrix.h>
 
-int main(int argc, char *argv[])
-{
-  std::variant<std::shared_ptr<int []>, int *> q (std::shared_ptr<int[]>(new int[10]));
+int main(int argc, char *argv[]) {
+  std::variant<std::shared_ptr<int[]>, int *> q(std::shared_ptr<int[]>(new int[10]));
 //  q = ;
 
-  std::get<std::shared_ptr<int[]>>(q);
+  StereoVision::Matrix<int> mat1(6, 5);
+  StereoVision::Matrix<float> mat2(6, 5);
+  for (int j = 0; j < mat1.Rows(); ++j) {
+    for (int i = 0; i < mat1.Cols(); ++i) {
+      mat1[j][i] = i * j;
+      mat2[j][i] = (float) i / (j + 0.001);
+    }
+  }
 
-
+  std::cout << " =================== Mat 1 =============" << std::endl;
+  std::cout << mat1 << std::endl;
+  std::cout << " =================== Mat 2 =============" << std::endl;
+  std::cout << mat2 << std::endl;
+  std::cout << " =================== Mat 1 + 2 =============" << std::endl;
+  std::cout << mat1 + mat2 << std::endl;
+  return 0;
 
   StereoVision::Row<int> row1(6);
   StereoVision::Row<float> row2(6);
