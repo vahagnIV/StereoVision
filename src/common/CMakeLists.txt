@@ -2,7 +2,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCES exceptions/*.h linalg/*.h linalg/*.cpp  video/*.h video/*.cpp)
 
-add_library(common SHARED ${SOURCES})
+add_library(common SHARED ${SOURCES} linalg/tensor_indices.cpp linalg/tensor_indices.h exceptions/index_overflow_exception.h)
 
 
 
