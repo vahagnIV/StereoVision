@@ -15,16 +15,28 @@ typedef std::vector<unsigned int> Shape;
 
 class TensorIndices {
  public:
-  TensorIndices(const Shape &weights, const std::vector<unsigned> &values) : index_values_(values), weights_(weights) {
+  TensorIndices(const Shape & weights, const std::vector<unsigned> & values)
+      : index_values_(values), weights_(weights), is_max_(false) {
 
   }
-  TensorIndices &operator+=(int number);
-  TensorIndices &operator++();
-  const unsigned int &operator[](int idx) const;
+
+  TensorIndices(const Shape & weights) : TensorIndices(weights, std::vector<unsigned>(weights.size(), 0)) {
+    if (weights_.empty())
+      index_values_.push_back(0);
+  }
+
+  TensorIndices & operator () (const std::vector<unsigned > & new_values);
+
+  bool IsValid() const;
+  TensorIndices & operator+=(int number);
+  TensorIndices & operator++();
+  const unsigned int operator[](int idx) const;
+  unsigned int & operator[](int idx);
   const size_t size() const;
  private:
   std::vector<unsigned int> index_values_;
-  const Shape &weights_;
+  const Shape & weights_;
+  bool is_max_;
 
 };
 

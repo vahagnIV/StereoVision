@@ -23,238 +23,37 @@ typedef std::vector<int> IndexSlice;
 
 template<typename T>
 class Tensor {
+
+  template<typename K>
+  friend
+  class Tensor;
+
  public:
-  Tensor(const Shape &shape)
+
+  /*!
+   * Constructor
+   * @param shape shape of the tensor
+   */
+  Tensor(const Shape & shape)
       : Tensor(new T[std::accumulate(std::begin(shape), std::end(shape), 1, std::multiplies<unsigned int>())],
-               shape, false) {
-
+               shape, false, 0, new std::atomic<int>(0)) {
   }
 
-  Tensor(T *data, const Shape &shape, bool data_is_external = true) : Tensor(data,
-                                                                             shape,
-                                                                             data_is_external,
-                                                                             new std::atomic<int>(1),
-                                                                             std::vector<int>(shape.size(), -1),
-                                                                             shape) {}
-
-  Tensor(const Tensor &other) : Tensor(other.data_,
-                                       other.shape_,
-                                       other.data_is_external_,
-                                       other.reference_counter_,
-                                       other.slice_,
-                                       other.weights_
+  /*!
+   * Copy constructor
+   * @param other
+   */
+  Tensor(const Tensor & other) : Tensor(other.data_,
+                                        other.shape_,
+                                        other.data_is_external_,
+                                        other.offset_,
+                                        other.reference_counter_,
+                                        other.weights_
   ) {
-    if (!data_is_external_) {
-      reference_counter_ = other.reference_counter_;
-      ++(*reference_counter_);
-    }
-  }
-
-  operator T() const {
-    if (shape_.size() != 1 && shape_[0] != 1)
-      throw InvalidConversionException("Tensor cannot be converted to scalar");
-    return data_[0];
-  }
-
-  T *Data() const {
-    return data_;
-  }
-
-  const Shape &GetShape() const {
-    return shape_;
-  }
-
-  template<typename K>
-  operator Tensor<K>() const {
-    Tensor<K> result(shape_);
-    for (int i = 0; i < Total(); ++i) {
-      result.Data()[i] = data_[i];
-    }
-    return result;
-  }
-
-  const Tensor<T> &operator[](int i) const {IndexSlice slice = slice_;
-    slice[0] = i;
-    return (*this)[slice]; }
-
-  Tensor<T> operator[](int i) {
-    IndexSlice slice = slice_;
-    slice[0] = i;
-    return (*this)[slice];
-  }
-
-  Tensor<T> operator[](const IndexSlice &slice) const {
-    IndexSlice new_slice;
-    Shape new_shape;
-    int slice_index = 0;
-    for (int new_slice_index = 0; new_slice_index < slice_.size(); ++new_slice_index) {
-      if (slice_[new_slice_index] == -1) {
-        new_slice.push_back(slice[slice_index++]);
-      } else {
-        new_slice.push_back(slice_[new_slice_index]);
-      }
-      if (new_slice[new_slice_index] == -1)
-        new_shape.push_back(weights_[new_slice_index]);
-
-    }
-    if (slice_index != slice.size())
-      throw IndexOverflowException("Invalid slice");
-    if (new_shape.size() == 0)
-      new_shape.push_back(1);
-
-    return Tensor<T>(data_, new_shape, true, nullptr, new_slice, weights_);
-  }
-
-  Tensor<T> &operator=(const T &value) {
-    if (IsScalar())
-      data_[0] = value;
-    else {
-      for (int i = 0; i < shape_[0]; ++i) {
-        (*this)[i] = value;
-      }
-    }
-  }
-
-  Tensor<T> &operator=(const Tensor<T> &other) {
-    if (IsScalar() && other.IsScalar()) {
-      *this = other.operator T();
-      return *this;
-    }
-
-    if (shape_.size() > other.GetShape().size())
-      for (int i = 0; i < shape_[0]; ++i) {
-        (*this)[i] = other;
-      }
-    else if (GetShape() == other.GetShape())
-      for (int i = 0; i < shape_[0]; ++i) {
-        (*this)[i] = other[i];
-      }
-    else
-      throw WrongOperandException("Trying to add operands of differnet size");
 
   }
 
-  template<typename K>
-  auto operator+(const Tensor<K> &other) const -> Tensor<DECLTYPEPlus(T, K)> {
-    Tensor<DECLTYPEPlus(T, K)> result(shape_);
-
-    if (shape_.size() > other.GetShape().size())
-      for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] + other;
-      }
-    else if (shape_ == other.GetShape()) {
-
-      for (int i = 0; i < Total(); ++i) {
-        result.data_[i] = data_[i] + other.data_[i];
-      }
-      /*if (IsScalar())
-        result = (*this).operator T() + other.operator T();
-      else {
-        for (int j = 0; j < GetShape()[0]; ++j) {
-          result[j] = (*this)[j] + other[j];
-        }
-      }*/
-    } else
-      throw WrongOperandException("Trying to add two tensors of different size.");
-    return result;
-  }
-
-  template<typename K>
-  auto operator-(const Tensor<K> &other) const -> Tensor<DECLTYPEPlus(T, K)> {
-    Tensor<DECLTYPEPlus(T, K)> result(shape_);
-
-    if (shape_.size() > other.GetShape().size())
-      for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] + other;
-      }
-    else if (shape_ == other.GetShape()) {
-
-      for (int i = 0; i < Total(); ++i) {
-        result.data_[i] = data_[i] - other.data_[i];
-      }
-      /*if (IsScalar())
-        result = (*this).operator T() - other.operator T();
-      else {
-        for (int j = 0; j < GetShape()[0]; ++j) {
-          result[j] = (*this)[j] + other[j];
-        }
-      }*/
-    } else
-      throw WrongOperandException("Trying to subtract two tensors of different size.");
-    return result;
-  }
-
-  template<typename K>
-  auto operator*(const Tensor<K> &other) const -> Tensor<DECLTYPEMul(T, K)> {
-    Tensor<DECLTYPEMul(T, K)> result(shape_);
-
-    if (shape_.size() > other.GetShape().size())
-      for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] + other;
-      }
-    else if (shape_ == other.GetShape()) {
-
-      for (int i = 0; i < Total(); ++i) {
-        result.data_[i] = data_[i] * other.data_[i];
-      }
-      /*if (IsScalar())
-        result = (*this).operator T() * other.operator T();
-      else {
-        for (int j = 0; j < GetShape()[0]; ++j) {
-          result[j] = (*this)[j] + other[j];
-        }
-      }*/
-    } else
-      throw WrongOperandException("Trying to Haar multiply two tensors of different size.");
-    return result;
-  }
-
-  template<typename K>
-  auto Dot(const Tensor<K> &other,
-           std::vector<std::pair<unsigned int, unsigned int>> dims = {}) const -> DECLTYPEMul(T, K) {
-
-    if (dims.size() == 0)
-      dims = {{shape_.size() - 1, 0}};
-
-    for (std::pair<unsigned int, unsigned int> dim: dims)
-      if (shape_[dim.first] != other.GetShape()[dim.second])
-        throw WrongOperandException("Invalid operand for dot product");
-
-    Shape free_indices1, free_indices2, result_shape;
-    for (int i = 0; i < shape_.size(); ++i) {
-      if (std::find_if(dims.begin(), dims.end(),
-                       [&](const std::pair<unsigned, unsigned> &element) { return element.first == i; })
-          == dims.end()) {
-        free_indices1.push_back(i);
-        result_shape.push_back(shape_[i]);
-      }
-
-    }
-
-    for (int i = 0; i < other.GetShape().size(); ++i) {
-      if (std::find_if(dims.begin(), dims.end(),
-                       [&](const std::pair<unsigned, unsigned> &element) { return element.second == i; })
-          == dims.end()) {
-        free_indices2.push_back(i);
-        result_shape.push_back(other.GetShape()[i]);
-      }
-    }
-
-    Tensor<DECLTYPEMul(T, K)> result(result_shape);
-    Shape iteration_indices1(free_indices1.size());
-    Shape iteration_indices2(free_indices2.size());
-    for (int j = 0; j < std::max(iteration_indices1.size(), iteration_indices2.size()); ++j) {
-      if (j < iteration_indices1.size())
-        iteration_indices1[j] = 0;
-      if (j < iteration_indices2.size())
-        iteration_indices2[j] = 0;
-    }
-
-    result = 0;
-
-    return result;
-
-  }
+  // ======================= Access ==========================================
 
   unsigned int Total() const {
     unsigned int count = 1;
@@ -263,48 +62,190 @@ class Tensor {
     return count;
   }
 
+  const Shape & GetShape() const {
+    return shape_;
+  }
+
   bool IsScalar() const {
-    return shape_.size() == 1 && shape_[0] == 1;
+    return shape_.size() == 0 || (shape_.size() == 1 && shape_[0] == 1);
+  }
+
+  TensorIndices GetIndex() const {
+    return TensorIndices(GetShape());
+  }
+
+  Tensor<T> operator[](int i) {
+    IndexSlice slice(shape_.size(), -1);
+    slice[0] = i;
+    return (*this)[slice];
+  }
+
+  const Tensor<T> & operator[](int i) const {
+    IndexSlice slice(shape_.size(), -1);
+    slice[0] = i;
+    return (*this)[slice];
+  }
+
+  Tensor<T> operator[](const IndexSlice & slice) const {
+    if (slice.size() != shape_.size())
+      throw IndexOverflowException("Invalid slice");
+    int offset = offset_;
+    Shape weights, shape, ordering;
+
+    int new_dim_index = 0, ordering_value = 0;
+    for (int i = 0; i < slice.size(); ++i) {
+      if (slice[i] != -1)
+        offset += slice[i] * weights_[i];
+      else {
+        shape.push_back(shape_[i]);
+        weights.push_back(weights_[i]);
+      }
+    }
+    return Tensor<T>(data_, shape, data_is_external_, offset, reference_counter_, weights);
+  }
+
+  T & operator[](const TensorIndices & idx) {
+    if (IsScalar())
+      return *(data_ + offset_);
+    int offset = offset_;
+    for (int i = 0; i < idx.size(); ++i) {
+      offset += weights_[i] * idx[i];
+    }
+    return *(data_ + offset);
+  }
+
+  T operator[](const TensorIndices & idx) const {
+    if (IsScalar())
+      return *(data_ + offset_);
+    int offset = offset_;
+    for (int i = 0; i < idx.size(); ++i) {
+      offset += weights_[i] * idx[i];
+    }
+    return *(data_ + offset);
+  }
+
+  // ====================== Conversion ==========================================
+  template<typename K>
+  operator Tensor<K>() const {
+    Tensor<K> result(shape_);
+
+    for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index) {
+      result[index] = (*this)[index];
+    }
+    return result;
+  }
+
+  template<typename K>
+  Tensor<K> As() {
+    return this->operator Tensor<K>();
+  }
+
+  operator T &() const {
+    if (!IsScalar())
+      throw InvalidConversionException("Tensor cannot be converted to scalar");
+    return *(data_ + offset_);
+  }
+
+  // ====================== Transformation ======================================
+
+  Tensor<T> Transpose(const std::vector<unsigned> & permutations = {}) {
+    if (permutations.empty() && shape_.size() != 2)
+      throw IndexOverflowException("Transponation without parameters is defined only for 2D tensors aka matrices");
+
+    const std::vector<unsigned> & perms = permutations.empty() ? std::vector<unsigned>{1, 0} : permutations;
+
+    if (perms.size() != shape_.size())
+      throw IndexOverflowException("Wrong transposition");
+    Shape shape, weights;
+    for (const unsigned int & axix: perms) {
+      shape.push_back(shape_[axix]);
+      weights.push_back(weights_[axix]);
+    }
+    return Tensor<T>(data_, shape, data_is_external_, offset_, reference_counter_, weights);
+  }
+
+
+  // ====================== Arithmetics =========================================
+
+  template<typename K>
+  auto operator+(const Tensor<K> & other) const -> Tensor<DECLTYPEPlus(T, K)> {
+    Tensor<DECLTYPEPlus(T, K)> result(shape_);
+
+    if (shape_.size() > other.GetShape().size())
+      for (int j = 0; j < GetShape()[0]; ++j) {
+        result[j] = (*this)[j] + other;
+      }
+    else if (shape_ == other.GetShape()) {
+      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
+        result[index] = (*this)[index] + other[index];
+    } else
+      throw WrongOperandException("Trying to add two tensors of different size.");
+    return result;
+  }
+
+  template<typename K>
+  auto operator-(const Tensor<K> & other) const -> Tensor<DECLTYPEPlus(T, K)> {
+    Tensor<DECLTYPEPlus(T, K)> result(shape_);
+
+    if (shape_.size() > other.GetShape().size())
+      for (int j = 0; j < GetShape()[0]; ++j) {
+        result[j] = (*this)[j] - other;
+      }
+    else if (shape_ == other.GetShape()) {
+      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
+        result[index] = (*this)[index] - other[index];
+    } else
+      throw WrongOperandException("Trying to add subtract tensors of different size.");
+    return result;
+  }
+
+  template<typename K>
+  auto operator*(const Tensor<K> & other) const -> Tensor<DECLTYPEMul(T, K)> {
+    Tensor<DECLTYPEMul(T, K)> result(shape_);
+
+    if (shape_.size() > other.GetShape().size())
+      for (int j = 0; j < GetShape()[0]; ++j) {
+        result[j] = (*this)[j] * other;
+      }
+    else if (shape_ == other.GetShape()) {
+      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
+        result[index] = (*this)[index] * other[index];
+    } else
+      throw WrongOperandException("Trying to add subtract tensors of different size.");
+    return result;
   }
 
   virtual ~Tensor() {
     if (!data_is_external_ && --(*reference_counter_) == 0)
       delete[] data_;
 
-    for (Tensor<T> *child: children_)
-      delete child;
-
   }
 
  protected:
 
   Tensor(T *data,
-         const Shape &shape,
+         const Shape & shape,
          bool data_is_external,
-         std::atomic<int> *reference_count,
-         const std::vector<int> &slice,
-         const Shape &weights)
+         int offset,
+         std::atomic<int> *reference_counter,
+         const Shape & weights = {}
+  )
       : data_(data),
         shape_(shape),
-        reference_counter_(reference_count),
+        weights_(weights),
         data_is_external_(data_is_external),
-        slice_(slice),
-        weights_(weights) {
+        offset_(offset),
+        reference_counter_(reference_counter) {
+    if (!data_is_external)
+      ++(*reference_counter);
 
-    int offset = 0;
-    int s = shape.size();
-    if (shape.size() == 1 && shape[0] == 1)
-      return;
-    Shape new_shape(shape.begin() + 1, shape.end());
-    Tensor<T> *child;
-    for (int i = 0; i < shape[0]; ++i) {
-      child =
-          0 == shape.size() - 1 ?
-          new Tensor<T>(data + offset, Shape{1}) :
-          new Tensor<T>(data + offset,
-                        new_shape);
-      offset += child->Total();
-      children_.push_back(child);
+    // Weights
+    if (weights_.empty() && !shape.empty()) {
+      weights_.resize(shape_.size());
+      weights_[weights_.size() - 1] = 1;
+      for (int i = shape_.size() - 2; i >= 0; --i) {
+        weights_[i] = shape_[i + 1] * weights_[i + 1];
+      }
     }
   }
 
@@ -314,30 +255,20 @@ class Tensor {
   Shape weights_;
   bool data_is_external_;
   T *data_;
-  std::vector<Tensor *> children_;
-  IndexSlice slice_;
+  int offset_;
 
 };
 
 template<typename T>
-std::ostream &operator<<(std::ostream &os, const Tensor<T> tensor) {
-  if (tensor.IsScalar()) {
-    os << tensor.operator T();
-    return os;
-  }
+std::ostream & operator<<(std::ostream & os, const Tensor<T> & tensor) {
 
-  if (tensor.GetShape().size() == 1)
-    for (int i = 0; i < tensor.GetShape()[0]; ++i) {
-      os << (tensor[i]) << "\t";
-    }
-  else if (tensor.GetShape().size() == 2)
-    for (int i = 0; i < tensor.GetShape()[0]; ++i) {
-      os << (tensor[i]) << "\n";
-    }
-  else {
-    os << "Tensor";
+  int counter = 0;
+  for (TensorIndices indices = tensor.GetIndex(); indices.IsValid(); ++indices) {
+    std::cout << tensor[indices] << '\t';
+    ++counter;
+    if (tensor.GetShape().size() && counter % tensor.GetShape()[tensor.GetShape().size() - 1] == 0)
+      std::cout << '\n';
   }
-
   return os;
 }
 
