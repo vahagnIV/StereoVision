@@ -3,12 +3,22 @@
 //
 
 #include <cstdarg>
-#include "tensor_indices.h"
+#include "simple_index.h"
 
 namespace StereoVision {
 namespace linalg {
 
-TensorIndices & TensorIndices::operator+=(int number) {
+SimpleIndex::SimpleIndex(const Shape & weights) : weights_(weights), index_values_(weights.size(), 0) {
+
+  if (weights_.empty())
+    index_values_.push_back(0);
+  for (int i = 0; i < index_values_.size(); ++i) {
+    index_values_ptr_.push_back(index_values_.data() + i);
+  }
+
+}
+
+iIndex & SimpleIndex::operator+=(int number) {
   if (weights_.empty()) {
     is_max_ = true;
     return *this;
@@ -32,38 +42,18 @@ TensorIndices & TensorIndices::operator+=(int number) {
   return *this;
 }
 
-TensorIndices & TensorIndices::operator++() {
+iIndex & SimpleIndex::operator++() {
   return *this += 1;
 };
 
-const unsigned int TensorIndices::operator[](int idx) const {
-  return index_values_[idx];
-}
-
-const size_t TensorIndices::size() const {
-  return index_values_.size();
-}
-
-bool TensorIndices::IsValid() const {
+bool SimpleIndex::IsValid() const {
   return !is_max_;
 }
 
-unsigned int & TensorIndices::operator[](int idx) {
-  return index_values_[idx];
-}
-
-TensorIndices & TensorIndices::operator()(const std::vector<unsigned> & new_values) {
+SimpleIndex & SimpleIndex::operator()(const std::vector<unsigned> & new_values) {
   if (new_values.size() != index_values_.size())
     throw IndexOverflowException("");
   index_values_ = new_values;
-}
-
-std::ostream & operator<<(std::ostream & os, const TensorIndices indices) {
-  for (int i = 0; i < indices.size(); ++i) {
-    os << indices[i] << '\t';
-  }
-
-  return os;
 }
 
 }

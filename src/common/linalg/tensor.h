@@ -10,9 +10,10 @@
 #include <numeric>
 #include <cstring>
 #include <algorithm>
-#include "tensor_indices.h"
+#include "linalg/inidices/iindex.h"
 #include "../exceptions/invalid_conversion_exception.h"
 #include "../exceptions/wrong_operand_exception.h"
+#include "linalg/inidices/mul_index_pair.h"
 
 namespace StereoVision {
 namespace linalg {
@@ -70,8 +71,8 @@ class Tensor {
     return shape_.size() == 0 || (shape_.size() == 1 && shape_[0] == 1);
   }
 
-  TensorIndices GetIndex() const {
-    return TensorIndices(GetShape());
+  SimpleIndex GetIndex() const {
+    return SimpleIndex(GetShape());
   }
 
   Tensor<T> operator[](int i) {
@@ -104,7 +105,7 @@ class Tensor {
     return Tensor<T>(data_, shape, data_is_external_, offset, reference_counter_, weights);
   }
 
-  T & operator[](const TensorIndices & idx) {
+  T & operator[](const iIndex & idx) {
     if (IsScalar())
       return *(data_ + offset_);
     int offset = offset_;
@@ -114,7 +115,7 @@ class Tensor {
     return *(data_ + offset);
   }
 
-  T operator[](const TensorIndices & idx) const {
+  T operator[](const iIndex & idx) const {
     if (IsScalar())
       return *(data_ + offset_);
     int offset = offset_;
@@ -129,7 +130,7 @@ class Tensor {
   operator Tensor<K>() const {
     Tensor<K> result(shape_);
 
-    for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index) {
+    for (SimpleIndex index = result.GetIndex(); index.IsValid(); ++index) {
       result[index] = (*this)[index];
     }
     return result;
@@ -161,6 +162,7 @@ class Tensor {
       shape.push_back(shape_[axix]);
       weights.push_back(weights_[axix]);
     }
+
     return Tensor<T>(data_, shape, data_is_external_, offset_, reference_counter_, weights);
   }
 
@@ -176,7 +178,7 @@ class Tensor {
         result[j] = (*this)[j] + other;
       }
     else if (shape_ == other.GetShape()) {
-      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
+      for (SimpleIndex index = result.GetIndex(); index.IsValid(); ++index)
         result[index] = (*this)[index] + other[index];
     } else
       throw WrongOperandException("Trying to add two tensors of different size.");
@@ -192,7 +194,7 @@ class Tensor {
         result[j] = (*this)[j] - other;
       }
     else if (shape_ == other.GetShape()) {
-      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
+      for (SimpleIndex index = result.GetIndex(); index.IsValid(); ++index)
         result[index] = (*this)[index] - other[index];
     } else
       throw WrongOperandException("Trying to add subtract tensors of different size.");
@@ -201,18 +203,22 @@ class Tensor {
 
   template<typename K>
   auto operator*(const Tensor<K> & other) const -> Tensor<DECLTYPEMul(T, K)> {
-    Tensor<DECLTYPEMul(T, K)> result(shape_);
 
-    if (shape_.size() > other.GetShape().size())
-      for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] * other;
-      }
-    else if (shape_ == other.GetShape()) {
-      for (TensorIndices index = result.GetIndex(); index.IsValid(); ++index)
-        result[index] = (*this)[index] * other[index];
-    } else
-      throw WrongOperandException("Trying to add subtract tensors of different size.");
+    std::vector<IndexPair> pairs;
+    for (int last1 = shape_.size() - 1, last2 = other.shape_.size() - 1; last1 >= 0 && last2 >= 0;
+         --last1, --last2) {
+      if (shape_[last1] == other.shape_[last2])
+        pairs.push_back({last1, last2});
+    }
+    MulIndexPair pair_index(shape_, other.shape_, pairs);
+
+    Tensor<DECLTYPEMul(T, K)> result(pair_index.GetShape());
+
+    for (; pair_index.IsValid(); ++pair_index)
+      result[pair_index] = (*this)[pair_index.First()] * other[pair_index.Second()];
+
     return result;
+
   }
 
   virtual ~Tensor() {
@@ -263,7 +269,7 @@ template<typename T>
 std::ostream & operator<<(std::ostream & os, const Tensor<T> & tensor) {
 
   int counter = 0;
-  for (TensorIndices indices = tensor.GetIndex(); indices.IsValid(); ++indices) {
+  for (SimpleIndex indices = tensor.GetIndex(); indices.IsValid(); ++indices) {
     std::cout << tensor[indices] << '\t';
     ++counter;
     if (tensor.GetShape().size() && counter % tensor.GetShape()[tensor.GetShape().size() - 1] == 0)

@@ -5,6 +5,7 @@
 #include <variant>
 #include <memory>
 #include <linalg/tensor.h>
+#include <linalg/inidices/mul_index_pair.h>
 
 int main(int argc, char *argv[]) {
   /*std::variant<std::shared_ptr<int[]>, int *> q(std::shared_ptr<int[]>(new int[10]));
@@ -21,26 +22,39 @@ int main(int argc, char *argv[]) {
     typeof(tensor) t2 = t[slice2];
   }*/
 
+//  StereoVision::linalg::Shape shape1 = {4, 3};
+//  StereoVision::linalg::Shape shape2 = {3, 3};
+//  StereoVision::linalg::TensorIndexPair pair(shape1, shape2, {{1, 0}});
+//  int count = 0;
+//  for (; pair.IsValid(); ++pair) {
+//    ++count;
+//    std::cout << pair.First() << "  ====  " << pair.Second() << std::endl;
+//  }
+//  std::cout << count;
+//  return 0;
+
   {
     StereoVision::linalg::Shape shape = {9, 4};
     StereoVision::linalg::Tensor<int> tensor(shape);
     StereoVision::linalg::Tensor<int> tensor2(shape);
 
     int counter = 0;
-    for (StereoVision::linalg::TensorIndices index = tensor.GetIndex(); index.IsValid(); ++index) {
-      std::cout << index << std::endl;
+    for (StereoVision::linalg::SimpleIndex index = tensor.GetIndex(); index.IsValid(); ++index) {
+//      std::cout << index << std::endl;
       tensor[index] = ++counter;
       tensor2[index] = ++counter + 1;
       if (counter == 1000)
         break;
     }
-    std::cout << tensor << std::endl;
-    std::cout << tensor2 << std::endl;
-    std::cout << (tensor - tensor2).Transpose().As<float>() << std::endl;
-    std::cout << (tensor + tensor2).Transpose().As<float>() << std::endl;
 
-    auto t3 = (tensor * tensor2).Transpose().As<float>();
-    std::cout << t3 << std::endl;
+    std::cout<<"Tensor\n" << tensor << std::endl;
+    std::cout<<"Tensor 2\n" << tensor2 << std::endl;
+//    std::cout << (tensor - tensor2).Transpose().As<float>() << std::endl;
+//    std::cout << (tensor + tensor2).Transpose().As<float>() << std::endl;
+
+    auto t3 = (tensor * tensor2).As<float>();
+
+    std::cout << "T1 x T2\n" << t3 << std::endl;
 
 //    auto t2 = tensor[1];
 //    t2 = t2.Transpose({1,0});

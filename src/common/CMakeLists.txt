@@ -1,8 +1,8 @@
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SOURCES exceptions/*.h linalg/*.h linalg/*.cpp  video/*.h video/*.cpp)
+file(GLOB SOURCES exceptions/*.h linalg/*.h linalg/*.cpp linalg/inidices/*  video/*.h video/*.cpp)
 
-add_library(common SHARED ${SOURCES} linalg/tensor_indices.cpp linalg/tensor_indices.h exceptions/index_overflow_exception.h)
+add_library(common SHARED ${SOURCES} linalg/inidices/simple_index.cpp linalg/inidices/simple_index.h exceptions/index_overflow_exception.h)
 
 
 
