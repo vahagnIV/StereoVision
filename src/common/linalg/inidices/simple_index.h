@@ -23,13 +23,13 @@ class SimpleIndex : public iIndex {
 
   SimpleIndex & operator()(const std::vector<unsigned> & new_values);
 
-  bool IsValid() const;
-  iIndex & operator+=(int number);
-  iIndex & operator++();
+  virtual bool IsValid() const;
+  virtual iIndex & operator+=(int number);
+  virtual iIndex & operator++();
   std::vector<index_t> index_values_;
  private:
   const Shape weights_;
-  bool is_max_;
+  bool is_invalid_;
 
 };
 

@@ -10,10 +10,11 @@
 #include <numeric>
 #include <cstring>
 #include <algorithm>
-#include "linalg/inidices/iindex.h"
+#include "inidices/sum_index_pair.h"
+#include "inidices/iindex.h"
 #include "../exceptions/invalid_conversion_exception.h"
 #include "../exceptions/wrong_operand_exception.h"
-#include "linalg/inidices/mul_index_pair.h"
+#include "inidices/mul_index_pair.h"
 
 namespace StereoVision {
 namespace linalg {
@@ -54,6 +55,10 @@ class Tensor {
 
   }
 
+  Tensor(T number) : Tensor(new T[1], {1}, false, 0, new std::atomic<int>(0)) {
+    data_[0] = number;
+
+  }
   // ======================= Access ==========================================
 
   unsigned int Total() const {
@@ -125,6 +130,22 @@ class Tensor {
     return *(data_ + offset);
   }
 
+  Tensor<T> & operator=(T value) {
+    for (SimpleIndex index = GetIndex(); index.IsValid(); ++index)
+      (*this)[index] = value;
+
+    return (*this);
+  }
+
+  template<typename K>
+  void CopyTo(Tensor<K> & other) const {
+    if (shape_ != other.shape_)
+      throw WrongOperandException("");
+    for (auto index = GetIndex(); index.IsValid(); ++index) {
+      other[index] = (*this)[index];
+    }
+  }
+
   // ====================== Conversion ==========================================
   template<typename K>
   operator Tensor<K>() const {
@@ -170,35 +191,73 @@ class Tensor {
   // ====================== Arithmetics =========================================
 
   template<typename K>
-  auto operator+(const Tensor<K> & other) const -> Tensor<DECLTYPEPlus(T, K)> {
-    Tensor<DECLTYPEPlus(T, K)> result(shape_);
+  Tensor<T> & operator+=(const Tensor<K> & other) {
 
     if (shape_.size() > other.GetShape().size())
       for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] + other;
+        (*this)[j] += other;
       }
     else if (shape_ == other.GetShape()) {
-      for (SimpleIndex index = result.GetIndex(); index.IsValid(); ++index)
-        result[index] = (*this)[index] + other[index];
+      for (SimpleIndex index = this->GetIndex(); index.IsValid(); ++index)
+        (*this)[index] += other[index];
     } else
       throw WrongOperandException("Trying to add two tensors of different size.");
+    return *this;
+  }
+
+  template<typename K>
+  Tensor<T> & operator-=(const Tensor<K> & other) {
+
+    if (shape_.size() > other.GetShape().size())
+      for (int j = 0; j < GetShape()[0]; ++j) {
+        (*this)[j] -= other;
+      }
+    else if (shape_ == other.GetShape()) {
+      for (SimpleIndex index = this->GetIndex(); index.IsValid(); ++index)
+        (*this)[index] -= other[index];
+    } else
+      throw WrongOperandException("Trying to add two tensors of different size.");
+    return *this;
+  }
+
+  template<typename K>
+  auto operator+(const Tensor<K> & other) const -> Tensor<DECLTYPEPlus(T, K)> {
+    Tensor<DECLTYPEPlus(T, K)> result(shape_);
+    this->CopyTo(result);
+    result += other;
     return result;
   }
 
   template<typename K>
   auto operator-(const Tensor<K> & other) const -> Tensor<DECLTYPEPlus(T, K)> {
     Tensor<DECLTYPEPlus(T, K)> result(shape_);
-
-    if (shape_.size() > other.GetShape().size())
-      for (int j = 0; j < GetShape()[0]; ++j) {
-        result[j] = (*this)[j] - other;
-      }
-    else if (shape_ == other.GetShape()) {
-      for (SimpleIndex index = result.GetIndex(); index.IsValid(); ++index)
-        result[index] = (*this)[index] - other[index];
-    } else
-      throw WrongOperandException("Trying to add subtract tensors of different size.");
+    this->CopyTo(result);
+    result -= other;
     return result;
+  }
+
+  template<typename K>
+  Tensor<T> & operator*=(const Tensor<K> & other) {
+    if (shape_.size() > other.shape_.size())
+      for (int j = 0; j < GetShape()[0]; ++j)
+        (*this)[j] *= other;
+    else if (other.IsScalar())
+      (*this) *= other.data_[other.offset_];
+    else if (shape_ == other.shape_)
+      for (SimpleIndex index = GetIndex(); index.IsValid(); ++index)
+        (*this)[index] *= other[index];
+    else
+      throw WrongOperandException("");
+
+    return *this;
+  }
+
+  template<typename K>
+  Tensor<T> & operator*=(K value) {
+//    return (*this) *= Tensor<K>(value);
+    for (auto index = GetIndex(); index.IsValid(); ++index)
+      (*this)[index] *= value;
+    return (*this);
   }
 
   template<typename K>
@@ -216,6 +275,35 @@ class Tensor {
 
     for (; pair_index.IsValid(); ++pair_index)
       result[pair_index] = (*this)[pair_index.First()] * other[pair_index.Second()];
+
+    return result;
+
+  }
+
+  template<typename K>
+  auto operator*(K value) const -> Tensor<DECLTYPEMul(T, K)>{
+    Tensor<DECLTYPEMul(T,K)> result(shape_);
+    this->CopyTo(result);
+    result*=value;
+    return result;
+  }
+
+  template<typename K>
+  auto Dot(const Tensor<K> & other, const std::vector<IndexPair> & bound_indices = {})
+  const -> Tensor<DECLTYPEMul(T, K)> {
+    std::vector<IndexPair> pairs;
+    if (bound_indices.empty() && shape_.back() == other.shape_.front()) {
+      pairs.push_back({shape_.size() - 1, 0});
+    }
+
+    const std::vector<IndexPair> & bound_indices_to_use = bound_indices.empty() ? pairs : bound_indices;
+    SumIndexPair pair_index(shape_, other.shape_, bound_indices_to_use);
+
+    Tensor<DECLTYPEMul(T, K)> result(pair_index.GetShape());
+    result = 0;
+
+    for (; pair_index.IsValid(); ++pair_index)
+      result[pair_index] = result[pair_index] + (*this)[pair_index.First()] * other[pair_index.Second()];
 
     return result;
 
@@ -246,16 +334,21 @@ class Tensor {
       ++(*reference_counter);
 
     // Weights
-    if (weights_.empty() && !shape.empty()) {
-      weights_.resize(shape_.size());
-      weights_[weights_.size() - 1] = 1;
-      for (int i = shape_.size() - 2; i >= 0; --i) {
-        weights_[i] = shape_[i + 1] * weights_[i + 1];
+    if (weights_.empty()) {
+      if (!shape.empty()) {
+        weights_.resize(shape_.size());
+        weights_[weights_.size() - 1] = 1;
+        for (int i = shape_.size() - 2; i >= 0; --i) {
+          weights_[i] = shape_[i + 1] * weights_[i + 1];
+        }
+      } else {
+        weights_.push_back(1);
+        shape_.push_back(1);
       }
     }
   }
 
- private:
+ protected:
   std::atomic<int> *reference_counter_;
   Shape shape_;
   Shape weights_;
@@ -270,10 +363,10 @@ std::ostream & operator<<(std::ostream & os, const Tensor<T> & tensor) {
 
   int counter = 0;
   for (SimpleIndex indices = tensor.GetIndex(); indices.IsValid(); ++indices) {
-    std::cout << tensor[indices] << '\t';
+    os << tensor[indices] << '\t';
     ++counter;
     if (tensor.GetShape().size() && counter % tensor.GetShape()[tensor.GetShape().size() - 1] == 0)
-      std::cout << '\n';
+      os << '\n';
   }
   return os;
 }

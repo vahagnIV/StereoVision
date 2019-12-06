@@ -8,7 +8,8 @@
 namespace StereoVision {
 namespace linalg {
 
-SimpleIndex::SimpleIndex(const Shape & weights) : weights_(weights), index_values_(weights.size(), 0) {
+SimpleIndex::SimpleIndex(const Shape & weights)
+    : weights_(weights), index_values_(weights.size(), 0), is_invalid_(false) {
 
   if (weights_.empty())
     index_values_.push_back(0);
@@ -20,18 +21,27 @@ SimpleIndex::SimpleIndex(const Shape & weights) : weights_(weights), index_value
 
 iIndex & SimpleIndex::operator+=(int number) {
   if (weights_.empty()) {
-    is_max_ = true;
+    is_invalid_ = true;
     return *this;
   }
 
+  int residual, tmp;
   for (int i = index_values_.size() - 1; i >= 0; --i) {
-    int residual = number % weights_[i];
-    int tmp = index_values_[i] + residual;
+    if (weights_[i] == 1) {
+      if (i == 0)
+        is_invalid_ = true;
+      continue;
+    }
+
+    residual = number % weights_[i];
+
+    tmp = index_values_[i] + residual;
+
     if (tmp >= weights_[i])
       if (i > 0)
         index_values_[i - 1] += 1;
       else {
-        is_max_ = true;
+        is_invalid_ = true;
         return *this;
       }
 
@@ -47,13 +57,14 @@ iIndex & SimpleIndex::operator++() {
 };
 
 bool SimpleIndex::IsValid() const {
-  return !is_max_;
+  return !is_invalid_;
 }
 
 SimpleIndex & SimpleIndex::operator()(const std::vector<unsigned> & new_values) {
   if (new_values.size() != index_values_.size())
     throw IndexOverflowException("");
   index_values_ = new_values;
+  return *this;
 }
 
 }
